@@ -46,7 +46,6 @@
 %Include analysissettings.sip
 %Include analysismodule.sip
 %Include runnercommon.sip
-%Include modules.sip
 %Include analysisdata.sip
 %Include cmdlinerunner.sip
 

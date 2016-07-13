@@ -82,5 +82,4 @@ public:
     bool hasTrajectory() const;
     const TopologyInformation &topologyInformation() const;
     t_trxframe                &frame() const;
-    t_pbc                     *pbc() const;
 };
