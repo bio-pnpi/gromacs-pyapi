@@ -36,50 +36,50 @@
 // These classes belong to gromacs.Selection, but will remain here until
 // t_trxframe and t_pbc are split from TrajectoryAnalysis
 class SelectionCollection /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/selection/selectioncollection.h>
-%End
-public:
-    SelectionCollection();
-    void evaluate(t_trxframe *fr, t_pbc *pbc);
-    void evaluateFinal(int nframes);
+    %End
+    public:
+        SelectionCollection();
+        void evaluate(t_trxframe *fr, t_pbc *pbc);
+        void evaluateFinal(int nframes);
 };
 
 class ITopologyProvider;
-class SelectionOptionBehavior : public IOptionsBehavior /NoDefaultCtors/ {
-%TypeHeaderCode
+class SelectionOptionBehavior: public IOptionsBehavior /NoDefaultCtors/ {
+    %TypeHeaderCode
 #include <gromacs/selection/selectionoptionbehavior.h>
-using gmx::SelectionOptionBehavior;
-using gmx::ITopologyProvider;
-%End
-public:
-    SelectionOptionBehavior(SelectionCollection *selections,
-                            ITopologyProvider   *topologyProvider);
-    void initOptions(IOptionsContainer *options);
-    virtual void initBehavior(Options *options);
-    virtual void optionsFinishing(Options *options);
-    virtual void optionsFinished();
+    using gmx::SelectionOptionBehavior;
+    using gmx::ITopologyProvider;
+    %End
+    public:
+        SelectionOptionBehavior(SelectionCollection *selections,
+                                ITopologyProvider   *topologyProvider);
+        void initOptions(IOptionsContainer *options);
+        virtual void initBehavior(Options *options);
+        virtual void optionsFinishing(Options *options);
+        virtual void optionsFinished();
 };
 
 class TrajectoryAnalysisRunnerCommon /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/trajectoryanalysis/runnercommon.h>
-%End
-public:
-    explicit TrajectoryAnalysisRunnerCommon(TrajectoryAnalysisSettings *settings);
-    ~TrajectoryAnalysisRunnerCommon();
+    %End
+    public:
+        explicit TrajectoryAnalysisRunnerCommon(TrajectoryAnalysisSettings *settings);
+        ~TrajectoryAnalysisRunnerCommon();
 
-    ITopologyProvider *topologyProvider();
+        ITopologyProvider *topologyProvider();
 
-    void initOptions(IOptionsContainer *options, TimeUnitBehavior *timeUnitBehavior);
-    void optionsFinished();
-    void initTopology();
-    void initFirstFrame();
-    void initFrameIndexGroup();
-    bool readNextFrame();
-    void initFrame();
+        void initOptions(IOptionsContainer *options, TimeUnitBehavior *timeUnitBehavior);
+        void optionsFinished();
+        void initTopology();
+        void initFirstFrame();
+        void initFrameIndexGroup();
+        bool readNextFrame();
+        void initFrame();
 
-    bool hasTrajectory() const;
-    const TopologyInformation &topologyInformation() const;
-    t_trxframe                &frame() const;
+        bool hasTrajectory() const;
+        const TopologyInformation &topologyInformation() const;
+        t_trxframe                &frame() const;
 };

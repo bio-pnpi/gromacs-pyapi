@@ -34,55 +34,55 @@
  */
 
 class TrajectoryAnalysisSettings {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/trajectoryanalysis/analysissettings.h>
-using namespace gmx;
-%End
+    using namespace gmx;
+    %End
 
-public:
-    enum {
-        efRequireTop = 1,
-        efUseTopX = 2,
-        efNoUserPBC = 16,
-        efNoUserRmPBC = 32
-    };
+    public:
+        enum {
+            efRequireTop  = 1,
+            efUseTopX     = 2,
+            efNoUserPBC   = 16,
+            efNoUserRmPBC = 32
+        };
 
-    TrajectoryAnalysisSettings();
-    void setOptionsModuleSettings(ICommandLineOptionsModuleSettings *settings);
-    /*
-    const TimeUnitManager& timeUnitManager() const;
-    TimeUnit timeUnit();
-    const AnalysisDataPlotSettings& plotSettings() const;
-    */
-    unsigned long flags() const;
-    bool hasFlag(unsigned long flag) const;
-    bool hasPBC() const;
-    bool hasRmPBC() const;
-    int frflags() const;
-    void setFlags(unsigned long flags);
-    void setFlag(unsigned long flag, bool bSet = true);
-    void setPBC(bool bPBC);
-    void setRmPBC(bool bRmPBC);
-    void setFrameFlags(int frflags);
-    void setHelpText(const char *helpText);
-    %MethodCode
+        TrajectoryAnalysisSettings();
+        void setOptionsModuleSettings(ICommandLineOptionsModuleSettings *settings);
+        /*
+           const TimeUnitManager& timeUnitManager() const;
+           TimeUnit timeUnit();
+           const AnalysisDataPlotSettings& plotSettings() const;
+         */
+        unsigned long flags() const;
+        bool hasFlag(unsigned long flag) const;
+        bool hasPBC() const;
+        bool hasRmPBC() const;
+        int frflags() const;
+        void setFlags(unsigned long flags);
+        void setFlag(unsigned long flag, bool bSet = true);
+        void setPBC(bool bPBC);
+        void setRmPBC(bool bRmPBC);
+        void setFrameFlags(int frflags);
+        void setHelpText(const char *helpText);
+        %MethodCode
         const char *const helpText[] = {a0};
         sipCpp->setHelpText(helpText);
-    %End
-private:
-    TrajectoryAnalysisSettings(const TrajectoryAnalysisSettings &other);
+        %End
+    private:
+        TrajectoryAnalysisSettings(const TrajectoryAnalysisSettings &other);
 };
 
 class TopologyInformation {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/trajectoryanalysis/analysissettings.h>
-using namespace gmx;
-%End
-public:
-    bool hasTopology() const;
-    bool hasFullTopology() const;
-    t_topology* topology() const;
-private:
-    TopologyInformation(const TopologyInformation &other);
-    ~TopologyInformation();
+    using namespace gmx;
+    %End
+    public:
+        bool hasTopology() const;
+        bool hasFullTopology() const;
+        t_topology* topology() const;
+    private:
+        TopologyInformation(const TopologyInformation &other);
+        ~TopologyInformation();
 };

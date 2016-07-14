@@ -33,95 +33,102 @@
  * the research papers on the package. Check out http://www.gromacs.org.
  */
 
-%Exception gmx::GromacsException(SIP_Exception) /Default/ {
-%TypeHeaderCode
+%Exception gmx::GromacsException(SIP_Exception) /Default/
+{
+    %TypeHeaderCode
 #include <gromacs/utility/exceptions.h>
-%End
-%RaiseCode
+    %End
+    %RaiseCode
     std::string detail = formatExceptionMessageToString(sipExceptionRef);
 
     SIP_BLOCK_THREADS
     PyErr_SetString(sipException_gmx_GromacsException, detail.data());
     SIP_UNBLOCK_THREADS
-%End
+    %End
 };
 
 // This MappedType makes sure that unique_ptr does not get destructed while wrapped pointer is still needed.
 // A class called 'TYPEPointer' needs to be created for every use.
 
-template <TYPE>
-%MappedType std::unique_ptr<TYPE> /NoRelease/ {
+template < TYPE >
+%MappedType std::unique_ptr < TYPE > /NoRelease/ {
 
-%ConvertFromTypeCode
+    %ConvertFromTypeCode
     PyObject *wrp = sipConvertFromType(sipCpp->get(), sipType_TYPE, NULL);
     PyObject *ptr = sipConvertFromNewType(sipCpp, sipType_TYPEPointer, wrp);
     // ptr is created only to bind wrp's ownership to it
     GMX_UNUSED_VALUE(ptr);
 
     return wrp;
-%End
+    %End
 
-%ConvertToTypeCode
+    %ConvertToTypeCode
     // Make it impossible to convert into this type
     if (!sipIsErr)
+    {
         return 0;
+    }
 
     GMX_ASSERT(true, "Converting something into unique_ptr. This should not happen!");
     return 0;
-%End
+    %End
 };
 
 %VirtualErrorHandler vehandler
-    SIP_RELEASE_GIL(sipGILState);
+SIP_RELEASE_GIL(sipGILState);
 
-    PyErr_PrintEx(1);
-    GMX_THROW(gmx::InternalError("Python virtual overload raised an exception, see traceback"));
+PyErr_PrintEx(1);
+GMX_THROW(gmx::InternalError("Python virtual overload raised an exception, see traceback"));
 %End
 
 %ModuleHeaderCode
 #include <functional>
-int argv_wrapper(PyObject *, const std::function<int(int, char**)> &);
-template <typename T> class PyFactory;
+int argv_wrapper(PyObject *, const std::function < int(int, char**) > &);
+template < typename T > class PyFactory;
 %End
 
 // This is put into UnitPostIncludeCode so that sip* declarations are available.
 %UnitPostIncludeCode
 #include <memory>
 #include <gromacs/utility/exceptions.h>
-template <typename T> class PyFactory {
-public:
-    PyFactory(const sipTypeDef *sipType, PyObject *mod) : sipType_(sipType), mod(mod) {} ;
-    std::unique_ptr<T> operator () () {
-        int iserr = 0;
-        int can = sipCanConvertToType(mod, sipType_, 0);
+template < typename T > class PyFactory {
+    public:
+        PyFactory(const sipTypeDef *sipType, PyObject *mod) : sipType_(sipType), mod(mod) {
+        };
+        std::unique_ptr < T > operator () () {
+            int iserr = 0;
+            int can   = sipCanConvertToType(mod, sipType_, 0);
 
-        if (!can)
-            GMX_THROW(gmx::APIError("Provided python object can not be converted to type required by runAsMain-like function"));
+            if (!can)
+            {
+                GMX_THROW(gmx::APIError("Provided python object can not be converted to type required by runAsMain-like function"));
+            }
 
-        T *module = (T*) sipConvertToType(
-            mod, sipType_, NULL, 0, NULL, &iserr);
-        return std::unique_ptr<T>(module);
-    }
-private:
-    const sipTypeDef *sipType_;
-    PyObject *mod;
+            T *module = (T*) sipConvertToType(
+                    mod, sipType_, NULL, 0, NULL, &iserr);
+            return std::unique_ptr < T > (module);
+        }
+    private:
+        const sipTypeDef *sipType_;
+        PyObject         *mod;
 };
 %End
 
 %ModuleCode
-int argv_wrapper(PyObject *py_argv, const std::function<int(int, char**)> &runner) {
-    int argc = PyList_GET_SIZE(py_argv);
+int argv_wrapper(PyObject *py_argv, const std::function < int(int, char**) > &runner)
+{
+    int    argc = PyList_GET_SIZE(py_argv);
 
     char **argv = new char *[argc + 1];
-    bool to_free[argc];
+    bool   to_free[argc];
     std::fill(to_free, to_free+argc, false);
 
     // Convert the list.
     // TODO: Use something better than AsLatin1String to avoid unicode errors
     for (int a = 0; a < argc; ++a)
     {
-        PyObject *arg_obj = PyList_GET_ITEM(py_argv, a);
-        const char *arg = sipString_AsLatin1String(&arg_obj);
+        PyObject   *arg_obj = PyList_GET_ITEM(py_argv, a);
+        const char *arg     = sipString_AsLatin1String(&arg_obj);
 
         if (arg)
         {
@@ -134,7 +141,7 @@ int argv_wrapper(PyObject *py_argv, const std::function<int(int, char**)> &runne
             arg = "unknown";
         }
 
-        argv[a] = const_cast<char *>(arg);
+        argv[a] = const_cast < char * > (arg);
     }
 
     argv[argc] = NULL;
@@ -142,8 +149,12 @@ int argv_wrapper(PyObject *py_argv, const std::function<int(int, char**)> &runne
     int result = runner(argc, argv);
 
     for (int i = 0; i < argc; i++)
+    {
         if (to_free[i])
+        {
             free(argv[i]);
+        }
+    }
     delete[] argv;
 
     return result;

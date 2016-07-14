@@ -35,21 +35,23 @@
 
 %MappedType std::string
 {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <string>
-%End
+    %End
 
-%ConvertToTypeCode
-if (sipIsErr == NULL)
-    return PyBytes_Check(sipPy);
+    %ConvertToTypeCode
+    if (sipIsErr == NULL)
+    {
+        return PyBytes_Check(sipPy);
+    }
 
     *sipCppPtr = new std::string(PyBytes_AsString(sipPy), PyBytes_Size(sipPy));
 
     return sipGetState(sipTransferObj);
-%End
+    %End
 
-%ConvertFromTypeCode
-return PyBytes_FromStringAndSize(sipCpp->data(),sipCpp->length());
-%End
+    %ConvertFromTypeCode
+    return PyBytes_FromStringAndSize(sipCpp->data(), sipCpp->length());
+    %End
 
 };

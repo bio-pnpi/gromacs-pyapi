@@ -46,35 +46,35 @@ enum e_index_t {
 };
 
 class SelectionPosition /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include "gromacs/selection/selection.h"
-using namespace gmx;
-%End
+    using namespace gmx;
+    %End
 
-public:
-    e_index_t type();
-    SIP_PYOBJECT x();
-    %MethodCode
+    public:
+        e_index_t type();
+        SIP_PYOBJECT x();
+        %MethodCode
         sipRes = array1dToNumpy(3, sipCpp->x());
-    %End
-    SIP_PYOBJECT v();
-    %MethodCode
+        %End
+        SIP_PYOBJECT v();
+        %MethodCode
         sipRes = array1dToNumpy(3, sipCpp->v());
-    %End
-    SIP_PYOBJECT f();
-    %MethodCode
+        %End
+        SIP_PYOBJECT f();
+        %MethodCode
         sipRes = array1dToNumpy(3, sipCpp->f());
-    %End
-    double mass();
-    double charge();
-    int atomCount();
-    SIP_PYOBJECT atomIndices();
-    %MethodCode
+        %End
+        double mass();
+        double charge();
+        int atomCount();
+        SIP_PYOBJECT atomIndices();
+        %MethodCode
         sipRes = iarray1dToNumpy(sipCpp->atomIndices().size(), sipCpp->atomIndices().data());
-    %End
-    bool selected();
-    int refId();
-    int mappedId();
+        %End
+        bool selected();
+        int refId();
+        int mappedId();
 };
 
 enum e_coverfrac_t {
@@ -83,62 +83,62 @@ enum e_coverfrac_t {
 };
 
 class Selection {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include "gromacs/selection/selection.h"
 #include "numpy_conv.h"
-using namespace gmx;
-%End
+    using namespace gmx;
+    %End
 
-public:
-    bool isValid();
-    bool __eq__(const Selection&);
-    bool __ne__(const Selection&);
-    const char* name();
-    const char* selectionText();
-    bool isDynamic();
-    e_index_t type();
-    bool hasOnlyAtoms();
-    int atomCount();
-    SIP_PYOBJECT atomIndices();
-    %MethodCode
+    public:
+        bool isValid();
+        bool __eq__(const Selection &);
+        bool __ne__(const Selection &);
+        const char* name();
+        const char* selectionText();
+        bool isDynamic();
+        e_index_t type();
+        bool hasOnlyAtoms();
+        int atomCount();
+        SIP_PYOBJECT atomIndices();
+        %MethodCode
         sipRes = iarray1dToNumpy(sipCpp->atomIndices().size(), sipCpp->atomIndices().data());
-    %End
-    int posCount();
-    SelectionPosition position(int);
-    SIP_PYOBJECT coordinates();
-    %MethodCode
+        %End
+        int posCount();
+        SelectionPosition position(int);
+        SIP_PYOBJECT coordinates();
+        %MethodCode
         sipRes = array2dToNumpy(sipCpp->coordinates().size(), 3, sipCpp->coordinates().data());
-    %End
-    bool hasVelocities();
-    SIP_PYOBJECT velocities();
-    %MethodCode
+        %End
+        bool hasVelocities();
+        SIP_PYOBJECT velocities();
+        %MethodCode
         sipRes = array2dToNumpy(sipCpp->velocities().size(), 3, sipCpp->velocities().data());
-    %End
-    bool hasForces();
-    SIP_PYOBJECT forces();
-    %MethodCode
+        %End
+        bool hasForces();
+        SIP_PYOBJECT forces();
+        %MethodCode
         sipRes = array2dToNumpy(sipCpp->forces().size(), 3, sipCpp->forces().data());
-    %End
-    SIP_PYOBJECT masses();
-    %MethodCode
+        %End
+        SIP_PYOBJECT masses();
+        %MethodCode
         sipRes = array1dToNumpy(sipCpp->masses().size(), sipCpp->masses().data());
-    %End
-    SIP_PYOBJECT charges();
-    %MethodCode
+        %End
+        SIP_PYOBJECT charges();
+        %MethodCode
         sipRes = array1dToNumpy(sipCpp->charges().size(), sipCpp->charges().data());
-    %End
-    SIP_PYOBJECT refIds();
-    %MethodCode
+        %End
+        SIP_PYOBJECT refIds();
+        %MethodCode
         sipRes = iarray1dToNumpy(sipCpp->refIds().size(), sipCpp->refIds().data());
-    %End
-    SIP_PYOBJECT mappedIds();
-    %MethodCode
+        %End
+        SIP_PYOBJECT mappedIds();
+        %MethodCode
         sipRes = iarray1dToNumpy(sipCpp->mappedIds().size(), sipCpp->mappedIds().data());
-    %End
-    bool isCoveredFractionDynamic();
-    double coveredFraction();
-    bool initCoveredFraction(e_coverfrac_t);
-    void setEvaluateVelocities(bool);
-    void setEvaluateForces(bool);
-    void setOriginalId(int, int);
+        %End
+        bool isCoveredFractionDynamic();
+        double coveredFraction();
+        bool initCoveredFraction(e_coverfrac_t);
+        void setEvaluateVelocities(bool);
+        void setEvaluateForces(bool);
+        void setOriginalId(int, int);
 };

@@ -36,23 +36,23 @@
 %ModuleHeaderCode
 #include "gromacs/options/abstractoption.h"
 #include "gromacs/selection/selectionoption.h"
-typedef gmx::OptionTemplate<gmx::Selection, gmx::SelectionOption> SelectionOptionTemplate;
+typedef gmx::OptionTemplate < gmx::Selection, gmx::SelectionOption > SelectionOptionTemplate;
 %End
 
-typedef OptionTemplate<Selection, SelectionOption> SelectionOptionTemplate;
+typedef OptionTemplate < Selection, SelectionOption > SelectionOptionTemplate;
 
-class SelectionOption : SelectionOptionTemplate /NoDefaultCtors/ {
-%TypeHeaderCode
+class SelectionOption: SelectionOptionTemplate /NoDefaultCtors/ {
+    %TypeHeaderCode
 #include "gromacs/selection/selectionoption.h"
-using namespace gmx;
-%End
+    using namespace gmx;
+    %End
 
-public:
-    SelectionOption& evaluateVelocities();
-    SelectionOption& evaluateForces();
-    SelectionOption& onlyAtoms();
-    SelectionOption& onlyStatic();
-    SelectionOption& dynamicMask();
-    SelectionOption& allowEmpty();
-    SelectionOption& defaultSelectionText(const char*);
+    public:
+        SelectionOption &evaluateVelocities();
+        SelectionOption &evaluateForces();
+        SelectionOption &onlyAtoms();
+        SelectionOption &onlyStatic();
+        SelectionOption &dynamicMask();
+        SelectionOption &allowEmpty();
+        SelectionOption &defaultSelectionText(const char*);
 };

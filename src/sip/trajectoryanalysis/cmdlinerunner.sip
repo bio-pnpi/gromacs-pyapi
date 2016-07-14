@@ -34,16 +34,16 @@
  */
 
 class TrajectoryAnalysisCommandLineRunner /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/trajectoryanalysis/cmdlinerunner.h>
-%End
+    %End
 
-public:
-    static int runAsMain(SIP_PYOBJECT mod, SIP_PYLIST argv);
-    %MethodCode
-        auto runner = [a0] (int argc, char **argv) -> int {
-            return TrajectoryAnalysisCommandLineRunner::runAsMain(argc, argv, PyFactory<gmx::TrajectoryAnalysisModule>(sipType_TrajectoryAnalysisModule, a0));
+    public:
+        static int runAsMain(SIP_PYOBJECT mod, SIP_PYLIST argv);
+        %MethodCode
+        auto runner = [a0] (int argc, char **argv)->int {
+            return TrajectoryAnalysisCommandLineRunner::runAsMain(argc, argv, PyFactory < gmx::TrajectoryAnalysisModule > (sipType_TrajectoryAnalysisModule, a0));
         };
         sipRes = argv_wrapper(a1, runner);
-    %End
+        %End
 };

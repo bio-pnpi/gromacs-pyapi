@@ -36,15 +36,15 @@
 struct t_topology
 {
 
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/topology/topology.h>
-%End
+    %End
 
     SIP_PYOBJECT      name /NoSetter/ {       // Name of the topology
-    %GetCode
+        %GetCode
         // name is stored as char**, when the outer pointer is null, let sip wrap it as None
         sipPy = sipBuildResult(NULL, "A", (sipCpp->name) ? *(sipCpp->name) : NULL);
-    %End
+        %End
     };
     //t_idef          idef;       [> The interaction function definition  <]
     t_atoms         atoms;      /* The atoms                            */

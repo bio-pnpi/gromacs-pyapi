@@ -35,120 +35,120 @@
 
 struct t_atom {
 
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/topology/atoms.h>
-%End
+    %End
 
-    double         m; double q;        /* Mass and charge                      */
-    double         mB; double qB;      /* Mass and charge for Free Energy calc */
-    unsigned short type;        /* Atom type                            */
-    unsigned short typeB;       /* Atom type for Free Energy calc       */
-    int            ptype;       /* Particle type                        */
-    int            resind;      /* Index into resinfo (in t_atoms)      */
-    int            atomnumber;  /* Atomic Number or NOTSET              */
-    char           *elem /NoSetter/;       /* Element name                         */
+    double         m; double q;               /* Mass and charge                      */
+    double                   mB; double qB;   /* Mass and charge for Free Energy calc */
+    unsigned short           type;            /* Atom type                            */
+    unsigned short           typeB;           /* Atom type for Free Energy calc       */
+    int                      ptype;           /* Particle type                        */
+    int                      resind;          /* Index into resinfo (in t_atoms)      */
+    int                      atomnumber;      /* Atomic Number or NOTSET              */
+    char                    *elem /NoSetter/; /* Element name                         */
 };
 
 struct t_resinfo {
 
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/topology/atoms.h>
-%End
+    %End
 
-    SIP_PYOBJECT /* char** */      name /NoSetter/ {      /* Pointer to the residue name          */
-    %GetCode
+    SIP_PYOBJECT /* char** */ name /NoSetter/ {           /* Pointer to the residue name          */
+        %GetCode
         sipPy = sipBuildResult(NULL, "A", (sipCpp->name) ? *(sipCpp->name) : NULL);
-    %End
+        %End
     };
-    int             nr;         /* Residue number                       */
-    unsigned char   ic;         /* Code for insertion of residues       */
-    int             chainnum;   /* Iincremented at TER or new chain id  */
-    char            chainid;    /* Chain identifier written/read to pdb */
-    SIP_PYOBJECT /* char** */      rtp /NoSetter/ {       /* rtp building block name (optional)   */
-    %GetCode
+    int                       nr;              /* Residue number                       */
+    unsigned char             ic;              /* Code for insertion of residues       */
+    int                       chainnum;        /* Iincremented at TER or new chain id  */
+    char                      chainid;         /* Chain identifier written/read to pdb */
+    SIP_PYOBJECT /* char** */ rtp /NoSetter/ { /* rtp building block name (optional)   */
+        %GetCode
         sipPy = sipBuildResult(NULL, "A", (sipCpp->rtp) ? *(sipCpp->rtp) : NULL);
-    %End
+        %End
     };
 };
 
 struct t_pdbinfo {
 
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/topology/atoms.h>
-%End
-
-    int      type;              /* PDB record name                      */
-    int      atomnr;            /* PDB atom number                      */
-    char     altloc;            /* Alternate location indicator         */
-    char    *atomnm /NoSetter/; /* True atom name including leading spaces */
-    double   occup;             /* Occupancy                            */
-    double   bfac;              /* B-factor                             */
-    bool bAnisotropic;          /* (an)isotropic switch                 */
-    SIP_PYOBJECT /* int * */ uij /NoSetter/ {
-    %GetCode
-        sipPy = sipConvertToArray(sipCpp->uij, "i", 6, SIP_READ_ONLY);
     %End
+
+    int      type;                              /* PDB record name                      */
+    int                      atomnr;            /* PDB atom number                      */
+    char                     altloc;            /* Alternate location indicator         */
+    char                    *atomnm /NoSetter/; /* True atom name including leading spaces */
+    double                   occup;             /* Occupancy                            */
+    double                   bfac;              /* B-factor                             */
+    bool                     bAnisotropic;      /* (an)isotropic switch                 */
+    SIP_PYOBJECT /* int * */ uij /NoSetter/ {
+        %GetCode
+        sipPy = sipConvertToArray(sipCpp->uij, "i", 6, SIP_READ_ONLY);
+        %End
     };
 };
 
 struct t_grps {
 
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/topology/atoms.h>
-%End
+    %End
 
     int   nr;                   /* Number of different groups           */
     SIP_PYOBJECT /* int* */ nm_ind /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = sipConvertToArray(sipCpp->nm_ind, "i", sipCpp->nr, SIP_READ_ONLY);
-    %End
+        %End
     };
 };
 
 
 struct t_atoms {
 
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/topology/atoms.h>
 // Sip creates 'copy_[typename]' functions. In this case it coincides with function from atoms.h, so we need to rename it.
 #define copy_t_atoms copy_t_atoms_sip
-%End
+    %End
 
     int            nr;          /* Nr of atoms                          */
     t_atom        *atom /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = sipConvertToTypedArray(sipCpp->atom, sipType_t_atom, NULL, sizeof(t_atom), sipCpp->nr, SIP_READ_ONLY);
-    %End
+        %End
     };
     PStringListWrapper atomname /NoSetter/ {
-    %GetCode
+        %GetCode
         PStringListWrapper *wrapper = new PStringListWrapper(sipCpp->atomname, sipCpp->nr);
         sipPy = sipConvertFromType(wrapper, sipType_PStringListWrapper, Py_None);
-    %End
+        %End
     };
     PStringListWrapper atomtype /NoSetter/ {
-    %GetCode
+        %GetCode
         PStringListWrapper *wrapper = new PStringListWrapper(sipCpp->atomtype, sipCpp->nr);
         sipPy = sipConvertFromType(wrapper, sipType_PStringListWrapper, Py_None);
-    %End
+        %End
     };
     PStringListWrapper atomtypeB /NoSetter/ {
-    %GetCode
+        %GetCode
         PStringListWrapper *wrapper = new PStringListWrapper(sipCpp->atomname, sipCpp->nr);
         sipPy = sipConvertFromType(wrapper, sipType_PStringListWrapper, Py_None);
-    %End
+        %End
     };
 
     int              nres;
     t_resinfo       *resinfo /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = sipConvertToTypedArray(sipCpp->resinfo, sipType_t_resinfo, NULL, sizeof(t_resinfo), sipCpp->nres, SIP_READ_ONLY);
-    %End
+        %End
     };
     // FIXME: how many pdbinfo's are there?
     t_pdbinfo       *pdbinfo /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = sipConvertToTypedArray(sipCpp->pdbinfo, sipType_t_pdbinfo, NULL, sizeof(t_pdbinfo), sipCpp->nres, SIP_READ_ONLY);
-    %End
+        %End
     };
 };

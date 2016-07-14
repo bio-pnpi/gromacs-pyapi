@@ -34,24 +34,24 @@
  */
 
 class IOptionsBehavior /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/options/ioptionsbehavior.h>
-using gmx::IOptionsBehavior;
-%End
-public:
-    virtual void initBehavior(Options *options) = 0;
-    virtual void optionsFinishing(Options *options) = 0;
-    virtual void optionsFinished() = 0;
+    using gmx::IOptionsBehavior;
+    %End
+    public:
+        virtual void initBehavior(Options *options)     = 0;
+        virtual void optionsFinishing(Options *options) = 0;
+        virtual void optionsFinished()                  = 0;
 };
 
-class TimeUnitBehavior : public IOptionsBehavior /NoDefaultCtors/ {
-%TypeHeaderCode
+class TimeUnitBehavior: public IOptionsBehavior /NoDefaultCtors/ {
+    %TypeHeaderCode
 #include <gromacs/options/timeunitmanager.h>
-using gmx::TimeUnitBehavior;
-%End
-public:
-    TimeUnitBehavior();
-    virtual void initBehavior(Options *options);
-    virtual void optionsFinishing(Options *options);
-    virtual void optionsFinished();
+    using gmx::TimeUnitBehavior;
+    %End
+    public:
+        TimeUnitBehavior();
+        virtual void initBehavior(Options *options);
+        virtual void optionsFinishing(Options *options);
+        virtual void optionsFinished();
 };

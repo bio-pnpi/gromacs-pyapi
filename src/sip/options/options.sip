@@ -34,35 +34,35 @@
  */
 
 class IOptionManager /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 
 #include <gromacs/options/options.h>
-using gmx::IOptionManager;
-%End
-
-protected:
-    virtual ~IOptionManager();
-};
-
-class Options : public IOptionsContainer {
-%TypeHeaderCode
-
-#include <gromacs/options/options.h>
-using gmx::Options;
-%End
-
-public:
-    Options(const char *name, const char *title);
-    void addManager (IOptionManager *manager);
-    void addSubSection (Options *section);
-    void addOption(const AbstractOption &settings);
-    IOptionsContainer *addGroup();
-    %MethodCode
-        IOptionsContainer &group = sipCpp->addGroup();
-        sipRes = &group;
+    using gmx::IOptionManager;
     %End
 
-    void finish();
-private:
-    Options(const Options &other);
+    protected:
+        virtual ~IOptionManager();
+};
+
+class Options: public IOptionsContainer {
+    %TypeHeaderCode
+
+#include <gromacs/options/options.h>
+    using gmx::Options;
+    %End
+
+    public:
+        Options(const char *name, const char *title);
+        void addManager (IOptionManager *manager);
+        void addSubSection (Options *section);
+        void addOption(const AbstractOption &settings);
+        IOptionsContainer *addGroup();
+        %MethodCode
+        IOptionsContainer &group = sipCpp->addGroup();
+        sipRes                   = &group;
+        %End
+
+        void finish();
+    private:
+        Options(const Options &other);
 };

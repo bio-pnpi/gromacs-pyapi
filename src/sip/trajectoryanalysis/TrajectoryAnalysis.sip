@@ -50,5 +50,5 @@
 %Include cmdlinerunner.sip
 
 %PostInitialisationCode
-    import_array();
+import_array();
 %End

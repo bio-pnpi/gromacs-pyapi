@@ -1,26 +1,28 @@
 #ifndef RUNNERCOMMON_H
 #define RUNNERCOMMON_h
 
-namespace gmx {
+namespace gmx
+{
 class ITopologyProvider;
-class TrajectoryAnalysisRunnerCommon {
+class TrajectoryAnalysisRunnerCommon
+{
     public:
-    explicit TrajectoryAnalysisRunnerCommon(TrajectoryAnalysisSettings*);
-    ~TrajectoryAnalysisRunnerCommon();
+        explicit TrajectoryAnalysisRunnerCommon(TrajectoryAnalysisSettings*);
+        ~TrajectoryAnalysisRunnerCommon();
 
-    ITopologyProvider *topologyProvider();
+        ITopologyProvider *topologyProvider();
 
-    void initOptions(IOptionsContainer*, TimeUnitBehavior*);
-    void optionsFinished();
-    void initTopology();
-    void initFirstFrame();
-    void initFrameIndexGroup();
-    bool readNextFrame();
-    void initFrame();
+        void initOptions(IOptionsContainer*, TimeUnitBehavior*);
+        void optionsFinished();
+        void initTopology();
+        void initFirstFrame();
+        void initFrameIndexGroup();
+        bool readNextFrame();
+        void initFrame();
 
-    bool hasTrajectory() const;
-    const TopologyInformation &topologyInformation() const;
-    t_trxframe &frame() const;
+        bool hasTrajectory() const;
+        const TopologyInformation &topologyInformation() const;
+        t_trxframe                &frame() const;
 };
 }
 

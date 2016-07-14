@@ -36,18 +36,18 @@
 class OptionInfo /NoDefaultCtors/;
 
 class IOptionsContainer /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/options/ioptionscontainer.h>
-using gmx::IOptionsContainer;
-%End
-
-public:
-    virtual OptionInfo *addOption(const AbstractOption &settings) = 0;
-    virtual IOptionsContainer *addGroup() = 0;
-    %MethodCode
-        IOptionsContainer &group = sipCpp->addGroup();
-        sipRes = &group;
+    using gmx::IOptionsContainer;
     %End
-private:
-    virtual ~IOptionsContainer();
+
+    public:
+        virtual OptionInfo *addOption(const AbstractOption &settings) = 0;
+        virtual IOptionsContainer *addGroup() = 0;
+        %MethodCode
+        IOptionsContainer &group = sipCpp->addGroup();
+        sipRes                   = &group;
+        %End
+    private:
+        virtual ~IOptionsContainer();
 };

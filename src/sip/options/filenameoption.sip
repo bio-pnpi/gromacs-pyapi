@@ -36,11 +36,11 @@
 %ModuleHeaderCode
 #include "gromacs/options/filenameoption.h"
 #include "gromacs/fileio/filetypes.h"
-typedef gmx::OptionTemplate<std::string, gmx::FileNameOption> FileNameOptionTemplate;
+typedef gmx::OptionTemplate < std::string, gmx::FileNameOption > FileNameOptionTemplate;
 using namespace gmx; // needed for compilation of enum
 %End
 
-typedef OptionTemplate<std::string, FileNameOption> FileNameOptionTemplate;
+typedef OptionTemplate < std::string, FileNameOption > FileNameOptionTemplate;
 
 enum OptionFileType {
     eftUnknown, eftTopology, eftTrajectory, eftPDB,
@@ -68,27 +68,27 @@ enum {
     efNR
 };
 
-class FileNameOption : FileNameOptionTemplate /NoDefaultCtors/ {
-%TypeHeaderCode
+class FileNameOption: FileNameOptionTemplate /NoDefaultCtors/ {
+    %TypeHeaderCode
 #include "gromacs/options/filenameoption.h"
-using gmx::FileNameOption;
-%End
-public:
-    FileNameOption& filetype(OptionFileType);
-    FileNameOption& legacyType(int);
-    FileNameOption& inputFile();
-    FileNameOption& outputFile();
-    FileNameOption& inputOutputFile();
-    FileNameOption& readWriteFlags(bool, bool);
-    FileNameOption& libraryFile(bool = true);
-    FileNameOption& defaultBasename(const char* /KeepReference/);
-    FileNameOption& defaultType(int);
+    using gmx::FileNameOption;
+    %End
+    public:
+        FileNameOption &filetype(OptionFileType);
+        FileNameOption &legacyType(int);
+        FileNameOption &inputFile();
+        FileNameOption &outputFile();
+        FileNameOption &inputOutputFile();
+        FileNameOption &readWriteFlags(bool, bool);
+        FileNameOption &libraryFile(bool = true);
+        FileNameOption &defaultBasename(const char* /KeepReference/);
+        FileNameOption &defaultType(int);
 };
 
-class FileNameOptionManager : public IOptionManager /NoDefaultCtors/ {
-%TypeHeaderCode
+class FileNameOptionManager: public IOptionManager /NoDefaultCtors/ {
+    %TypeHeaderCode
 #include <gromacs/options/filenameoptionmanager.h>
-%End
-public:
-    FileNameOptionManager();
+    %End
+    public:
+        FileNameOptionManager();
 };

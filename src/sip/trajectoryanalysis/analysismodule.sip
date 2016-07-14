@@ -35,141 +35,141 @@
 
 struct t_trxframe {
 
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/trajectory/trajectoryframe.h>
 #include "numpy_conv.h"
-%End
+    %End
 
     int         not_ok;
-    bool        bDouble;
-    int         natoms;
-    bool        bTitle;
-    const char *title;
-    bool        bStep;
-    int         step;
-    bool        bTime;
-    double      time;
-    bool        bLambda;
-    bool        bFepState;
-    double      lambda;
-    int         fep_state;
-    bool        bAtoms;
-    t_atoms    *atoms;
-    bool        bPrec;
-    double      prec;
-    bool        bX;
+    bool         bDouble;
+    int          natoms;
+    bool         bTitle;
+    const char  *title;
+    bool         bStep;
+    int          step;
+    bool         bTime;
+    double       time;
+    bool         bLambda;
+    bool         bFepState;
+    double       lambda;
+    int          fep_state;
+    bool         bAtoms;
+    t_atoms     *atoms;
+    bool         bPrec;
+    double       prec;
+    bool         bX;
 
     SIP_PYOBJECT x /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = array2dToNumpy(sipCpp->natoms, 3, sipCpp->x);
-    %End
+        %End
     };
-    bool bV;
+    bool         bV;
     SIP_PYOBJECT v /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = array2dToNumpy(sipCpp->natoms, 3, sipCpp->v);
-    %End
+        %End
     };
-    bool bF;
+    bool         bF;
     SIP_PYOBJECT f /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = array2dToNumpy(sipCpp->natoms, 3, sipCpp->f);
-    %End
+        %End
     };
-    bool bBox;
+    bool         bBox;
     SIP_PYOBJECT box /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = array2dToNumpy(3, 3, sipCpp->box);
-    %End
+        %End
     };
-    bool bPBC;
-    int ePBC;
-    bool bIndex;
+    bool         bPBC;
+    int          ePBC;
+    bool         bIndex;
     SIP_PYOBJECT index /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = array1dToNumpy(sipCpp->natoms, sipCpp->index);
-    %End
+        %End
     };
 };
 
 struct t_pbc {
 
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/pbcutil/pbc.h>
 #include "numpy_conv.h"
-%End
-    int ePBC;
-    int ndim_ePBC;
-    int ePBCDX;
-    int dim;
-    SIP_PYOBJECT box /NoSetter/ {
-    %GetCode
-        sipPy = array2dToNumpy(3, 3, sipCpp->box);
     %End
+    int ePBC;
+    int          ndim_ePBC;
+    int          ePBCDX;
+    int          dim;
+    SIP_PYOBJECT box /NoSetter/ {
+        %GetCode
+        sipPy = array2dToNumpy(3, 3, sipCpp->box);
+        %End
     };
     SIP_PYOBJECT fbox_diag /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = array1dToNumpy(3, sipCpp->fbox_diag);
-    %End
+        %End
     };
     SIP_PYOBJECT hbox_diag /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = array1dToNumpy(3, sipCpp->hbox_diag);
-    %End
+        %End
     };
     SIP_PYOBJECT mhbox_diag /NoSetter/ {
-    %GetCode
+        %GetCode
         sipPy = array1dToNumpy(3, sipCpp->mhbox_diag);
-    %End
+        %End
     };
     double max_cutoff2;
-    int  ntric_vec;
+    int    ntric_vec;
     /*ivec tric_shift[MAX_NTRICVEC];*/
     /*rvec tric_vec[MAX_NTRICVEC];*/
 };
 
 class AnalysisDataParallelOptions /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/analysisdata/paralleloptions.h>
-%End
-public:
-    AnalysisDataParallelOptions();
+    %End
+    public:
+        AnalysisDataParallelOptions();
 };
 
 class TrajectoryAnalysisModuleDataPointer;
 class TrajectoryAnalysisModuleData /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/trajectoryanalysis/analysismodule.h>
-using namespace gmx;
-%End
+    using namespace gmx;
+    %End
 
-public:
-    virtual void finish() = 0;
+    public:
+        virtual void finish() = 0;
 };
 
 class TrajectoryAnalysisModulePointer;
-class TrajectoryAnalysisModule /VirtualErrorHandler=vehandler/ {
-%TypeHeaderCode
+class TrajectoryAnalysisModule /VirtualErrorHandler = vehandler/ {
+    %TypeHeaderCode
 #include <gromacs/trajectoryanalysis/analysismodule.h>
-using namespace gmx;
-%End
-public:
-    virtual void initOptions(IOptionsContainer *options, TrajectoryAnalysisSettings *settings) = 0;
-    virtual void optionsFinished(TrajectoryAnalysisSettings *settings);
-    virtual void initAnalysis(const TrajectoryAnalysisSettings &settings, const TopologyInformation &top) = 0;
-    virtual void initAfterFirstFrame(const TrajectoryAnalysisSettings &settings, const t_trxframe &fr);
-    // Discarding the virtual for now
-    std::unique_ptr<TrajectoryAnalysisModuleData> startFrames (const AnalysisDataParallelOptions &opt, const SelectionCollection &selections);
-    virtual void analyzeFrame(int frnr, const t_trxframe &fr /NoCopy/, t_pbc *pbc, TrajectoryAnalysisModuleData *pdata ) = 0;
-    virtual void finishFrames(TrajectoryAnalysisModuleData *pdata);
-    virtual void finishAnalysis(int nframes) = 0;
-    virtual void writeOutput() = 0;
-    int datasetCount() const;
-    void finishFrameSerial(int frameIndex);
-    AbstractAnalysisData& datasetFromIndex(int index) const;
-    AbstractAnalysisData& datasetFromName(const char *name) const;
-protected:
-    TrajectoryAnalysisModule();
-private:
-    TrajectoryAnalysisModule(const TrajectoryAnalysisModule &other);
+    using namespace gmx;
+    %End
+    public:
+        virtual void initOptions(IOptionsContainer *options, TrajectoryAnalysisSettings *settings) = 0;
+        virtual void optionsFinished(TrajectoryAnalysisSettings *settings);
+        virtual void initAnalysis(const TrajectoryAnalysisSettings &settings, const TopologyInformation &top) = 0;
+        virtual void initAfterFirstFrame(const TrajectoryAnalysisSettings &settings, const t_trxframe &fr);
+        // Discarding the virtual for now
+        std::unique_ptr < TrajectoryAnalysisModuleData > startFrames (const AnalysisDataParallelOptions &opt, const SelectionCollection &selections);
+        virtual void analyzeFrame(int frnr, const t_trxframe &fr /NoCopy/, t_pbc *pbc, TrajectoryAnalysisModuleData *pdata ) = 0;
+        virtual void finishFrames(TrajectoryAnalysisModuleData *pdata);
+        virtual void finishAnalysis(int nframes) = 0;
+        virtual void writeOutput()               = 0;
+        int datasetCount() const;
+        void finishFrameSerial(int frameIndex);
+        AbstractAnalysisData &datasetFromIndex(int index) const;
+        AbstractAnalysisData &datasetFromName(const char *name) const;
+    protected:
+        TrajectoryAnalysisModule();
+    private:
+        TrajectoryAnalysisModule(const TrajectoryAnalysisModule &other);
 };

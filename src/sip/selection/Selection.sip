@@ -40,4 +40,3 @@
 %Include definitions.sip
 
 %Include selection.sip
-

@@ -33,27 +33,27 @@
  * the research papers on the package. Check out http://www.gromacs.org.
  */
 
-class AbstractOption /NoDefaultCtors,Abstract/ {
-%TypeHeaderCode
+class AbstractOption /NoDefaultCtors, Abstract/ {
+    %TypeHeaderCode
 #include <gromacs/options/abstractoption.h>
-using gmx::AbstractOption;
-%End
+    using gmx::AbstractOption;
+    %End
 };
 
-template<T, U> class OptionTemplate : AbstractOption /NoDefaultCtors/ {
-%TypeHeaderCode
+template < T, U > class OptionTemplate: AbstractOption /NoDefaultCtors/ {
+    %TypeHeaderCode
 #include <gromacs/options/abstractoption.h>
-using namespace gmx;
-%End
-public:
-    U& description(const char * /KeepReference/);
-    U& hidden(bool = true);
-    U& required(bool = true);
-    U& allowMultiple(bool = true);
-    // FIXME
-    // These function do not work, because they store pointer to argument, which then is garbage collected in python.
-    // Different combinations of Factory, KeepReference and Transfer annotations do not help.
-    // Use third argument of PyOptionsHolder's methods instead.
-    U& defaultValue(const T&);
-    U& defaultValueIfSet(const T&);
+    using namespace gmx;
+    %End
+    public:
+        U &description(const char * /KeepReference/);
+        U &hidden(bool = true);
+        U &required(bool = true);
+        U &allowMultiple(bool = true);
+        // FIXME
+        // These function do not work, because they store pointer to argument, which then is garbage collected in python.
+        // Different combinations of Factory, KeepReference and Transfer annotations do not help.
+        // Use third argument of PyOptionsHolder's methods instead.
+        U &defaultValue(const T &);
+        U &defaultValueIfSet(const T &);
 };

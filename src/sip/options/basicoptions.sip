@@ -34,44 +34,44 @@
  */
 
 %ModuleHeaderCode
-typedef gmx::OptionTemplate<double, gmx::DoubleOption> DoubleOptionTemplate;
-typedef gmx::OptionTemplate<int, gmx::IntegerOption> IntegerOptionTemplate;
-typedef gmx::OptionTemplate<std::string, gmx::StringOption> StringOptionTemplate;
-typedef gmx::OptionTemplate<bool, gmx::BooleanOption> BooleanOptionTemplate;
+typedef gmx::OptionTemplate < double, gmx::DoubleOption > DoubleOptionTemplate;
+typedef gmx::OptionTemplate < int, gmx::IntegerOption > IntegerOptionTemplate;
+typedef gmx::OptionTemplate < std::string, gmx::StringOption > StringOptionTemplate;
+typedef gmx::OptionTemplate < bool, gmx::BooleanOption > BooleanOptionTemplate;
 %End
 
 class std::string;
-typedef OptionTemplate<double, DoubleOption> DoubleOptionTemplate;
-typedef OptionTemplate<int, IntegerOption> IntegerOptionTemplate;
-typedef OptionTemplate<std::string, StringOption> StringOptionTemplate;
-typedef OptionTemplate<bool, BooleanOption> BooleanOptionTemplate;
+typedef OptionTemplate < double, DoubleOption > DoubleOptionTemplate;
+typedef OptionTemplate < int, IntegerOption > IntegerOptionTemplate;
+typedef OptionTemplate < std::string, StringOption > StringOptionTemplate;
+typedef OptionTemplate < bool, BooleanOption > BooleanOptionTemplate;
 
-class DoubleOption : DoubleOptionTemplate /NoDefaultCtors/ {
-%TypeHeaderCode
+class DoubleOption: DoubleOptionTemplate /NoDefaultCtors/ {
+    %TypeHeaderCode
 #include "gromacs/options/basicoptions.h"
-using gmx::DoubleOption;
-%End
-};
-class IntegerOption : IntegerOptionTemplate /NoDefaultCtors/ {
-%TypeHeaderCode
-#include "gromacs/options/basicoptions.h"
-using gmx::IntegerOption;
-%End
-};
-class StringOption : StringOptionTemplate /NoDefaultCtors/ {
-%TypeHeaderCode
-#include "gromacs/options/basicoptions.h"
-using gmx::StringOption;
-%End
-public:
-    StringOption& defaultValue(const char *);
-    %MethodCode
-        sipRes = &sipCpp->defaultValue(std::string(a0));
+    using gmx::DoubleOption;
     %End
 };
-class BooleanOption : BooleanOptionTemplate /NoDefaultCtors/ {
-%TypeHeaderCode
+class IntegerOption: IntegerOptionTemplate /NoDefaultCtors/ {
+    %TypeHeaderCode
 #include "gromacs/options/basicoptions.h"
-using gmx::BooleanOption;
-%End
+    using gmx::IntegerOption;
+    %End
+};
+class StringOption: StringOptionTemplate /NoDefaultCtors/ {
+    %TypeHeaderCode
+#include "gromacs/options/basicoptions.h"
+    using gmx::StringOption;
+    %End
+    public:
+        StringOption &defaultValue(const char *);
+        %MethodCode
+        sipRes = &sipCpp->defaultValue(std::string(a0));
+        %End
+};
+class BooleanOption: BooleanOptionTemplate /NoDefaultCtors/ {
+    %TypeHeaderCode
+#include "gromacs/options/basicoptions.h"
+    using gmx::BooleanOption;
+    %End
 };

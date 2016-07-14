@@ -38,37 +38,40 @@
 
 %ModuleHeaderCode
 class PStringListWrapper {
-public:
-    PStringListWrapper(char ***stringList, size_t size);
-    const char* operator[] (size_t i);
-private:
-    char ***stringList;
-    size_t size;
+    public:
+        PStringListWrapper(char ***stringList, size_t size);
+        const char* operator[] (size_t i);
+    private:
+        char     ***stringList;
+        size_t      size;
 };
 %End
 
 %ModuleCode
 PStringListWrapper::PStringListWrapper(char ***stringList, size_t size) :
     stringList(stringList), size(size)
-    {}
+{}
 const char* PStringListWrapper::operator[] (size_t i) {
     if (i >= size)
+    {
         return NULL;
+    }
     return *stringList[i];
 }
 %End
 
 class PStringListWrapper /NoDefaultCtors/ {
-public:
-    const char* operator[] (int i);
-    %MethodCode
+    public:
+        const char* operator[] (int i);
+        %MethodCode
         sipRes = (*sipCpp)[a0];
 
-        if (!sipRes) {
+        if (!sipRes)
+        {
             SIP_BLOCK_THREADS;
             PyErr_SetString(PyExc_IndexError, "Index out of range");
             SIP_UNBLOCK_THREADS;
             sipIsErr = 1;
         }
-    %End
+        %End
 };

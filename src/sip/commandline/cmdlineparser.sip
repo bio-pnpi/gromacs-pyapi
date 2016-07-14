@@ -34,18 +34,18 @@
  */
 
 class CommandLineParser /NoDefaultCtors/ {
-%TypeHeaderCode
+    %TypeHeaderCode
 #include <gromacs/commandline/cmdlineparser.h>
-using gmx::CommandLineParser;
-%End
-public:
-    CommandLineParser(Options *options);
-    void parse(SIP_PYLIST argv);
-    %MethodCode
-        auto runner = [sipCpp] (int argc, char **argv) -> int {
+    using gmx::CommandLineParser;
+    %End
+    public:
+        CommandLineParser(Options *options);
+        void parse(SIP_PYLIST argv);
+        %MethodCode
+        auto runner = [sipCpp] (int argc, char **argv)->int {
             sipCpp->parse(&argc, argv);
             return 0;
         };
         argv_wrapper(a0, runner);
-    %End
+        %End
 };
