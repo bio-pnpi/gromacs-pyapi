@@ -1,7 +1,7 @@
 #
 # This file is part of the GROMACS-PyAPI package.
 #
-# Copyright (c) 2014,2015,2016,2014,2015,
+# Copyright (c) 2014,2015,
 # by Maks Koltsov <maks@omrb.pnpi.spb.ru> and
 # by Alexey Shvetsov <alexxy@omrb.pnpi.spb.ru>
 #

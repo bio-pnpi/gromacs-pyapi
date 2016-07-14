@@ -20,24 +20,7 @@
 # http://www.gnu.org/licenses, or write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
 
-cmake_minimum_required(VERSION 2.8.11)
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-project(GROMACS-PyAPI)
-
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-find_package(GROMACS 2016)
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-include_directories(${CMAKE_SOURCE_DIR}/stub_headers)
-
-file(GLOB GROMACS_PYAPI_MISC README COPYING)
-install(FILES ${GROMACS_PYAPI_MISC}
+file(GLOB GROMACS_PYAPI_EXAMPLES *.py)
+install(FILES ${GROMACS_PYAPI_EXAMPLES}
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/share/gromacs-pyapi)
 
-add_subdirectory(src)
-add_subdirectory(examples)
