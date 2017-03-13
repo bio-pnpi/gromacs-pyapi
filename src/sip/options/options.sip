@@ -21,6 +21,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  */
 
+class OptionInfo /NoDefaultCtors/;
+
 class IOptionManager /NoDefaultCtors/ {
     %TypeHeaderCode
 
@@ -43,12 +45,10 @@ class Options: public IOptionsContainer {
         Options(const char *name, const char *title);
         void addManager (IOptionManager *manager);
         void addSubSection (Options *section);
-        void addOption(const AbstractOption &settings);
-        IOptionsContainer *addGroup();
-        %MethodCode
-        IOptionsContainer &group = sipCpp->addGroup();
-        sipRes                   = &group;
-        %End
+        OptionInfo* addOption(const AbstractOption &settings);
+
+        // No way to add it clearly - C++ returns reference, sip can't wrap it
+        //IOptionsContainer *addGroup();
 
         void finish();
     private:

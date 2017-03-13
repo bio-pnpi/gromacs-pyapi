@@ -21,8 +21,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
  */
 
-class OptionInfo /NoDefaultCtors/;
-
 class IOptionsContainer /NoDefaultCtors/ {
     %TypeHeaderCode
 #include <gromacs/options/ioptionscontainer.h>
@@ -31,11 +29,14 @@ class IOptionsContainer /NoDefaultCtors/ {
 
     public:
         virtual OptionInfo *addOption(const AbstractOption &settings) = 0;
+
+        /*
         virtual IOptionsContainer *addGroup() = 0;
         %MethodCode
         IOptionsContainer &group = sipCpp->addGroup();
         sipRes                   = &group;
         %End
+        */
     private:
         virtual ~IOptionsContainer();
 };

@@ -42,6 +42,9 @@ set(SIP_EXTRA_OPTIONS ${SIP_EXTRA_OPTIONS} -e -o)
 
 file(GLOB common_files_sip sip/*.sip)
 
+# SIP 4.19 breaks exceptions in multi-part files
+set(SIP_CONCAT_PARTS 1)
+
 file(GLOB options_files_sip sip/options/*.sip)
 set(SIP_EXTRA_FILES_DEPEND ${options_files_sip} ${common_files_sip})
 add_sip_python_module(gromacs.Options sip/options/Options.sip libgromacs)
