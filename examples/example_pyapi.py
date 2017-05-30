@@ -44,13 +44,13 @@ class M(TrajectoryAnalysis.TrajectoryAnalysisModule):
     def initOptions(self, options, settings):
         print('python: initOptions')
 
-        settings.setHelpText('A stupid test module')
+        settings.setHelpText('A simple test module')
 
         self.optionsHolder = Options.PyOptionsHolder()
 
-        options.addOption(self.optionsHolder.doubleOption('py').description('option added from python just to check').required())
+        options.addOption(self.optionsHolder.doubleOption('double').description('double option from python').required())
         options.addOption(self.optionsHolder.selectionOption('sel').description('selection option from python').required())
-        options.addOption(self.optionsHolder.booleanOption('fail').description('fail :)'))
+
         settings.setFlag(TrajectoryAnalysis.TrajectoryAnalysisSettings.efRequireTop)
         print('python: inited')
 
@@ -59,21 +59,21 @@ class M(TrajectoryAnalysis.TrajectoryAnalysisModule):
         print('There are {} atoms'.format(top.topology().atoms.nr))
         print('Topology name: {}'.format(top.topology().name))
 
+    def initAfterFirstFrame(self, settings, frame):
+        print('python: first frame has {} atoms'.format(frame.natoms))
+        print('Frame box:')
+        print(frame.box[0], frame.box[1], frame.box[2])
+
     def analyzeFrame(self, frnr, frame, pbc, data):
         sel = self.optionsHolder['sel']
-        print('selected atoms {}, {}'.format(sel.atomCount(), sel.coordinates()[0]))
-        print('ids: {}'.format(sel.mappedIds()[:5]))
-        return
-        print('python: Analyzing frame {}, {} atoms'.format(frnr, frame.natoms))
-        print(frame.box[0], frame.box[1], frame.box[2])
-        print(frame.x[0], frame.v[0], frame.f[0])
+        print('Frame {}, selected {} atoms'.format(frnr, sel.atomCount()))
 
     def finishAnalysis(self, nframes):
         print('python: Analyzed {} frames'.format(nframes))
 
     def writeOutput(self):
         print('python: writeOutput')
-        print('py = {}'.format(self.optionsHolder['py']))
+        print('double = {}'.format(self.optionsHolder['double']))
         print('sel = {}'.format(self.optionsHolder['sel']))
 
 if __name__ == '__main__':
